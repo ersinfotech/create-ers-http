@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const fs = require('fs')
+const path = require('path')
 const { execSync } = require('child_process')
 
 const mkdirSync = (filepath) => {
@@ -131,11 +132,17 @@ ehttp(config, {
 execSync('cp config/default.js config/development.js')
 execSync('rm -rf node_modules/')
 execSync('npm init -f')
-const package = require('./package.json')
+
+const root = process.cwd()
+console.log(root)
+
+const package_json_path = path.join(root, 'package.json')
+const package = require(package_json_path)
 package.scripts.start = 'node-dev .'
 
-console.log(package)
-fs.writeFileSync('package.json', JSON.stringify(package, null, 2))
+fs.writeFileSync(package_json_path, JSON.stringify(package, null, 2))
+
+console.log('please wait')
 
 execSync('npm i config ers-http')
 execSync('npm i -D node-dev')
