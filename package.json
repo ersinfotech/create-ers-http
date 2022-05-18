@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "create skeleton using ers-http",
   "main": "create-ers-http.js",
+  "bin": {
+    "create-ers-http": "create-ers-http.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
