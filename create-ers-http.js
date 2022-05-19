@@ -20,33 +20,33 @@ const writeFileSync = (filepath, data) => {
     console.log(`created ${filepath}`)
 }
 
-if (fs.existsSync('package.json')) {
-    console.log('package.json already existed')
+const root = process.cwd()
+console.log(root)
+
+const package_json_path = path.join(root, 'package.json')
+
+if (fs.existsSync(package_json_path)) {
+    console.log('package.json already existed, skip creating')
     process.exit()
 }
 
 mkdirSync('config')
 mkdirSync('src/graphql')
 
-writeFileSync('config/default.js', `
-module.exports = {
-    clientId: 'miner',
+writeFileSync('config/default.json', `
+{
+    "clientId": "miner",
 
-    http: {
-        port: process.env.PORT || 3000,
-    },
-
-    eadmin: {
-        baseUrl: 'http://api.ersinfotech.com/eadmin2-api',
-    },
+    "eadmin": {
+        "baseUrl": "http://api.ersinfotech.com/eadmin2-api"
+    }
 }
 `)
 
 writeFileSync('.gitignore', `
 node_modules/
 config/*
-!config/default.js
-EOF
+!config/default.json
 `)
 
 writeFileSync('src/graphql/schema.js', `
@@ -129,14 +129,10 @@ ehttp(config, {
 })
 `)
 
-execSync('cp config/default.js config/development.js')
+execSync('cp config/default.json config/development.json')
 execSync('rm -rf node_modules/')
 execSync('npm init -f')
 
-const root = process.cwd()
-console.log(root)
-
-const package_json_path = path.join(root, 'package.json')
 const package = require(package_json_path)
 package.scripts.start = 'node-dev .'
 
