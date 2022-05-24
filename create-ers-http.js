@@ -32,6 +32,7 @@ if (fs.existsSync(package_json_path)) {
 
 mkdirSync('config')
 mkdirSync('src/graphql')
+mkdirSync('src/restful')
 
 writeFileSync('config/default.json', `
 {
@@ -88,6 +89,14 @@ module.exports = (logger) => {
 }
 `)
 
+writeFileSync('src/restful/index.js', `
+module.exports = (logger, router, restrict) => {
+    router.use('/hello', (req, res) => {
+        res.end('hello world')
+    })
+}
+`)
+
 writeFileSync('ecosystem.config.js', `
 //
 // 只修改env里面的内容即可，其他配置请保持不变
@@ -123,9 +132,11 @@ require('./init')
 const config = require('config')
 const ehttp = require('ers-http')
 const graphql = require('./src/graphql')
+const restful = require('./src/restful')
 
 ehttp(config, {
     graphql,
+    restful,
 })
 `)
 
