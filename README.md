@@ -4,8 +4,8 @@ create skeleton using ers-http
 ## Usage
 
 ```
-cd your/project/folder
-
+mkdir myapp
+cd myapp 
 npm init ers-http@latest
 
 ```
