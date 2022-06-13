@@ -151,7 +151,7 @@ fs.writeFileSync(package_json_path, JSON.stringify(package, null, 2))
 
 console.log('please wait')
 
-execSync('npm i config ers-http')
-execSync('npm i -D node-dev')
+execSync('npm i config ers-http --registry=https://registry.npmmirror.com')
+execSync('npm i -D node-dev --registry=https://registry.npmmirror.com')
 
 console.log(`\nyou can 'npm start' now`)
