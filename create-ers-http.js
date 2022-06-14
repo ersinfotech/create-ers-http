@@ -142,7 +142,7 @@ ehttp(config, {
 
 execSync('cp config/default.json config/development.json')
 execSync('rm -rf node_modules/')
-execSync('npm init -f')
+execSync('npm init -y')
 
 const package = require(package_json_path)
 package.scripts.start = 'node-dev .'
