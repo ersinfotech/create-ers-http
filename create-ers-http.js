@@ -127,13 +127,13 @@ module.exports = {
 };
 `)
 
-writeFileSync('init.js', `
-global.__base = process.cwd()
+writeFileSync('init.cjs', `
+global.__base = __dirname
 console.json = d => console.log(JSON.stringify(d, null, 2))
 `)
 
 writeFileSync('index.js', `
-import './init.js'
+import './init.cjs'
 import config from 'config'
 import ehttp from 'ers-http'
 import graphql from './src/graphql/index.js'
