@@ -44,14 +44,19 @@ writeFileSync('config/default.json', `
 }
 `)
 
+writeFileSync('config/default-0.json', `
+{}
+`)
+
 writeFileSync('.gitignore', `
 node_modules/
 config/*
 !config/default.json
+!config/default-0.json
 `)
 
 writeFileSync('src/graphql/schema.js', `
-module.exports = \`
+export default \`
 
 type Query {
     echo(message: JSON!): JSON
@@ -61,7 +66,7 @@ type Query {
 `)
 
 writeFileSync('src/graphql/API.js', `
-module.exports = class API {
+export default class API {
     constructor (logger) {
         this.logger = logger
     }
@@ -74,30 +79,30 @@ module.exports = class API {
 `)
 
 writeFileSync('src/graphql/resolver.js', `
-module.exports = {
+export default {
 }
 `)
 
 writeFileSync('src/graphql/index.js', `
-const schema = require('./schema')
-const API = require('./API')
-const resolver = require('./resolver')
+import schema from './schema.js'
+import API from './API.js'
+import resolver from './resolver.js'
 
-module.exports = (logger) => {
+export default (logger) => {
     const api = new API(logger)
     return {api, schema, resolver}
 }
 `)
 
 writeFileSync('src/restful/index.js', `
-module.exports = (logger, router, restrict) => {
+export default (logger, router, restrict) => {
     router.use('/hello', (req, res) => {
         res.end('hello world')
     })
 }
 `)
 
-writeFileSync('ecosystem.config.js', `
+writeFileSync('ecosystem.config.cjs', `
 //
 // 只修改env里面的内容即可，其他配置请保持不变
 // 专门用于pm2 nvm的联合使用
@@ -123,16 +128,16 @@ module.exports = {
 `)
 
 writeFileSync('init.js', `
-global.__base = __dirname
+global.__base = process.cwd()
 console.json = d => console.log(JSON.stringify(d, null, 2))
 `)
 
 writeFileSync('index.js', `
-require('./init')
-const config = require('config')
-const ehttp = require('ers-http')
-const graphql = require('./src/graphql')
-const restful = require('./src/restful')
+import './init.js'
+import config from 'config'
+import ehttp from 'ers-http'
+import graphql from './src/graphql/index.js'
+import restful from './src/restful/index.js'
 
 ehttp(config, {
     graphql,
@@ -146,6 +151,7 @@ execSync('npm init -y')
 
 const package = require(package_json_path)
 package.scripts.start = 'node-dev .'
+package.type = 'module'
 
 fs.writeFileSync(package_json_path, JSON.stringify(package, null, 2))
 
