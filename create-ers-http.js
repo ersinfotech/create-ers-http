@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
-const path = require('path')
-const { execSync } = require('child_process')
+const fs = require('node:fs')
+const path = require('node:path')
+const { execSync } = require('node:child_process')
 
 const mkdirSync = (filepath) => {
     if (fs.existsSync(filepath)) {
@@ -127,13 +127,15 @@ module.exports = {
 };
 `)
 
-writeFileSync('init.cjs', `
-global.__base = __dirname
+writeFileSync('init.js', `
+import { fileURLToPath } from 'node:url'
+import path from 'node:path'
+global.__base = path.dirname(fileURLToPath(import.meta.url))
 console.json = d => console.log(JSON.stringify(d, null, 2))
 `)
 
 writeFileSync('index.js', `
-import './init.cjs'
+import './init.js'
 import config from 'config'
 import ehttp from 'ers-http'
 import graphql from './src/graphql/index.js'
