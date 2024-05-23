@@ -34,25 +34,23 @@ mkdirSync('config')
 mkdirSync('src/graphql')
 mkdirSync('src/restful')
 
-writeFileSync('config/default.json', `
-{
-    "clientId": "miner",
-
-    "eadmin": {
-        "baseUrl": "http://api.ersinfotech.com/eadmin2-api"
-    }
+writeFileSync('config/default.cjs', `
+module.exports = {
+  clientId: 'miner',
+  eadmin: {
+    baseUrl: 'http://api.ersinfotech.com/eadmin2-api',
+  },
 }
 `)
 
-writeFileSync('config/default-0.json', `
-{}
-`)
-
+//writeFileSync('config/default-0.cjs', `
+//{}
+//`)
+//
 writeFileSync('.gitignore', `
 node_modules/
 config/*
-!config/default.json
-!config/default-0.json
+!config/default.cjs
 `)
 
 writeFileSync('src/graphql/schema.js', `
@@ -147,7 +145,7 @@ ehttp(config, {
 })
 `)
 
-execSync('cp config/default.json config/development.json')
+execSync('cp config/default.cjs config/development.cjs')
 execSync('rm -rf node_modules/')
 execSync('npm init -y')
 
