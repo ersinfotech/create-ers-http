@@ -133,8 +133,8 @@ writeFileSync('index.js', `
 import './init.js'
 import config from 'config'
 import ehttp from 'ers-http'
-import graphql from './src/graphql/index.js'
-import restful from './src/restful/index.js'
+import graphql from '#src/graphql/index.js'
+import restful from '#src/restful/index.js'
 
 ehttp(config, {
   graphql,
@@ -149,6 +149,8 @@ execSync('npm init -y')
 const package = require(package_json_path)
 package.scripts.start = 'nodemon .'
 package.type = 'module'
+package.imports = package.imports || {}
+package.imports['#src/*'] = './src/*'
 
 fs.writeFileSync(package_json_path, JSON.stringify(package, null, 2))
 
