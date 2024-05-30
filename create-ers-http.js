@@ -2,7 +2,7 @@
 
 const fs = require('node:fs')
 const path = require('node:path')
-const { execSync } = require('node:child_process')
+const { execSync, spawnSync } = require('node:child_process')
 
 const mkdirSync = (filepath) => {
   if (fs.existsSync(filepath)) {
@@ -156,7 +156,7 @@ fs.writeFileSync(package_json_path, JSON.stringify(package, null, 2))
 
 console.log('please wait')
 
-execSync('npm i config ers-http')
-execSync('npm i -D nodemon')
+spawnSync('npm', ['i', 'config', 'ers-http'], { stdio: 'inherit' })
+spawnSync('npm', ['i', '-D', 'nodemon'], { stdio: 'inherit' })
 
 console.log(`\nyou can 'npm start' now`)
