@@ -112,9 +112,9 @@ module.exports = {
     name      : pkg.name,
     script    : pkg.main,
     interpreter: process.env.NVM_DIR + '/nvm-exec',
-    interpreter_args: 'node',
+    interpreter_args: 'node --import=tsx',
     env: {
-      NODE_VERSION: 16,
+      NODE_VERSION: 20,
       PORT: 3000,
       NODE_ENV: 'production',
     },
@@ -147,7 +147,7 @@ execSync('rm -rf node_modules/')
 execSync('npm init -y')
 
 const package = require(package_json_path)
-package.scripts.start = 'nodemon .'
+package.scripts.start = 'nodemon -e js,ts,json --import=tsx .'
 package.type = 'module'
 package.imports = package.imports || {}
 package.imports['#src/*'] = './src/*'
@@ -157,6 +157,6 @@ fs.writeFileSync(package_json_path, JSON.stringify(package, null, 2))
 console.log('please wait')
 
 spawnSync('npm', ['i', 'config', 'ers-http'], { stdio: 'inherit' })
-spawnSync('npm', ['i', '-D', 'nodemon'], { stdio: 'inherit' })
+spawnSync('npm', ['i', '-D', 'nodemon', 'tsx'], { stdio: 'inherit' })
 
 console.log(`\nyou can 'npm start' now`)
