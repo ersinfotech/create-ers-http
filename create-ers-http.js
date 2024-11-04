@@ -147,7 +147,7 @@ execSync('rm -rf node_modules/')
 execSync('npm init -y')
 
 const package = require(package_json_path)
-package.scripts.start = 'nodemon -e js,ts,json --import=tsx .'
+package.scripts.start = 'nodemon -e cjs,js,ts,json --import=tsx .'
 package.type = 'module'
 package.imports = package.imports || {}
 package.imports['#src/*'] = './src/*'
