@@ -1,6 +1,6 @@
 {
   "name": "create-ers-http",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "create skeleton using ers-http",
   "main": "create-ers-http.js",
   "bin": {
