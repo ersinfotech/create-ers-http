@@ -7,7 +7,7 @@
     "create-ers-http": "create-ers-http.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "rm -rf test/ && mkdir test/ && cp create-ers-http.js test/ && cd test/ && node create-ers-http.js"
   },
   "repository": {
     "type": "git",

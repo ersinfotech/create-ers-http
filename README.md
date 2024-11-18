@@ -9,3 +9,11 @@ cd myapp
 npm init ers-http@latest
 
 ```
+
+## Test
+
+```
+npm test
+cd test
+npm start
+```
