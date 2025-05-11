@@ -56,15 +56,11 @@ config/*
 )
 
 writeFileSync(
-  'src/graphql/schema.ts',
+  'src/graphql/schema.graphql',
   `
-export default \`
-
 type Query {
   echo(message: JSON!): JSON
 }
-
-\`
 `,
 )
 
@@ -82,15 +78,20 @@ export const echo = async ({ message }, { session }) => {
 writeFileSync(
   'src/graphql/resolver.ts',
   `
-export default {
-}
+export default {}
 `,
 )
 
 writeFileSync(
   'src/graphql/index.ts',
   `
-import schema from './schema'
+import { readFile } from 'node:fs/promises'
+import { join } from 'node:path'
+
+const schema = await readFile(
+  join(import.meta.dirname, './schema.graphql'),
+  'utf8',
+)
 import * as api from './api'
 import resolver from './resolver'
 
